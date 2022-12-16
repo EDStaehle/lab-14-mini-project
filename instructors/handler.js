@@ -8,11 +8,12 @@ const startNewTicket = (socket) => (payload) => {
   setTimeout(() => {
     console.log('Instructor: now helping with ticket:', payload.ticketId);
     console.log('ticketQueue>>>', ticketQueue.helping);
-    socket.emit('HELPING', helping(payload));
+   console.log('starNewTicket', payload)
+    socket.emit('HELPING', {...payload, helping: true});
   }, 2000);
   setTimeout(() => {
-    socket.emit('COMPLETED', completed(payload));
-  }, 6000);
+    socket.emit('COMPLETED', {...payload, helping: false});
+  }, 15000);
 };
 
 
@@ -22,7 +23,7 @@ const helping = (payload) => {
 };
 
 const completed = (payload) => {
-  console.log('BA-NA-NA');
+  console.log('inscrutctor has completed: ', payload.ticketId);
   ticketQueue.helping = false;
 };
 

@@ -9,6 +9,7 @@ const generateTicket = (socket) => (payload = null) => {
     ticketId : chance.guid(),
     class: 'CODE-102',
     queueId: 'CODE-102',
+    helping: false,
     description: chance.sentence({words:5}),
   };
 
