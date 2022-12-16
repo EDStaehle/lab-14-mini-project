@@ -27,22 +27,30 @@ help.on('connection', (socket) => {
   });
   socket.on('HELPING', (payload) => {
     //  pause inbound messages
-    if(ticketQueue.helping) {
-      let currentQueue = ticketQueue.read(payload.queueId);
-      if(ticketQueue.helping){
+    let currentQueue = ticketQueue.read(payload.queueId);
+    if(!currentQueue){
+      let queueKey = ticketQueue.store(payload.queueId, new Queue());
+      currentQueue = ticketQueue.read(queueKey);
+    }
+    currentQueue.store(payload.ticketId, payload);
+    console.log('------------------',currentQueue);
+    if(currentQueue.data[payload.ticketId].helping === true) {
+        console.log('we are inside helping event conditional',currentQueue.data[payload.ticketId].helping);
         currentQueue.store(payload.ticketId, payload);
         console.log('new ticket but no available TA');
-      }
+
       console.log('A student has requested help with a new ticket.', payload);
-      if(!currentQueue){
-        let queueKey = ticketQueue.store(payload.queueId, new Queue());
-        currentQueue = ticketQueue.read(queueKey);
-      }
-      currentQueue.store(payload.ticketId, payload);
     }
   });
   socket.on('COMPLETED', (payload) => {
-
+    let currentQueue = ticketQueue.read(payload.queueId);
+    if(!currentQueue){
+      throw new Error('we have tickets but no queue')
+    }
+    console.log('we are in the completed listen-----------');
+    console.log(payload.ticketId);
+    let notification = currentQueue.remove(payload.ticketId);
+    socket.to(payload.queueId).emit('COMPLETED', notification);
     // remove from queue
   });
   socket.on('READY', (payload) => {

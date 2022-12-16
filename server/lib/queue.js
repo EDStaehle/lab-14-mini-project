@@ -2,8 +2,8 @@
 
 class Queue{
   constructor(){
-    this.data = {},
-    this.helping = false;
+    this.data = {}
+    // this.helping = false;
   }
   store(key, value){
     this.data[key] = value;

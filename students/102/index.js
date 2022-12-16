@@ -9,9 +9,12 @@ socket.emit('JOIN', 'CODE-102');
 
 socket.on('COMPLETED',(payload) => thankInstructor(payload));
 
+// setInterval(() => {
+//   console.log('-----New Ticket-----');
+//   generateTicket(socket)();
+// }, 5000);
+
+generateTicket(socket)();
 setInterval(() => {
-  console.log('-----New Ticket-----');
   generateTicket(socket)();
-}, 5000);
-
-
+}, 2000);
