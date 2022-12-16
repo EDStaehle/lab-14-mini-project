@@ -14,7 +14,11 @@ const startNewTicket = (socket) => (payload) => {
   setTimeout(() => {
     socket.emit('COMPLETED', {...payload, helping: false});
   }, 15000);
+  setTimeout(() => {
+    socket.emit('AVAILABILITY', 'elias')
+  }, 3000);
 };
+
 
 
 const helping = (payload) => {

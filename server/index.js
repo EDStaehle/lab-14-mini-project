@@ -18,42 +18,34 @@ help.on('connection', (socket) => {
     socket.emit('JOIN', queueId);
   });
   console.log('socket connected to event server', socket.id);
+  socket.on('AVAILABILITY', (payload) =>{
+    socket.emit('START_TICKET', payload);
 
+   let nextTicket = ticketQueue.dequeue();
+   socket.to(payload.helper).emit(nextTicket)
+    // do an instructor queue
+    // save availability
+    // if the instructor is available can we emit next help ticket???
+    //
+  })
   socket.on('NEW_TICKET', (payload) => {
-    socket.broadcast.emit('NEW_TICKET', payload);
+    console.log('we are in the new ticket listen')
+    ticketQueue.enqueue(payload);
+    console.log(ticketQueue.peek());
+
   });
   socket.on('INBOUND', (payload) => {
     socket.to(payload.queueId).emit('INBOUND', payload);
   });
   socket.on('HELPING', (payload) => {
     //  pause inbound messages
-    let currentQueue = ticketQueue.read(payload.queueId);
-    if(!currentQueue){
-      let queueKey = ticketQueue.store(payload.queueId, new Queue());
-      currentQueue = ticketQueue.read(queueKey);
-    }
-    currentQueue.store(payload.ticketId, payload);
-    console.log('------------------',currentQueue);
-    if(currentQueue.data[payload.ticketId].helping === true) {
-        console.log('we are inside helping event conditional',currentQueue.data[payload.ticketId].helping);
-        currentQueue.store(payload.ticketId, payload);
-        console.log('new ticket but no available TA');
 
-      console.log('A student has requested help with a new ticket.', payload);
-    }
   });
   socket.on('COMPLETED', (payload) => {
-    let currentQueue = ticketQueue.read(payload.queueId);
-    if(!currentQueue){
-      throw new Error('we have tickets but no queue')
-    }
-    console.log('we are in the completed listen-----------');
-    console.log(payload.ticketId);
-    let notification = currentQueue.remove(payload.ticketId);
-    socket.to(payload.queueId).emit('COMPLETED', notification);
+      console.log('we are in the completed');
     // remove from queue
   });
-  socket.on('READY', (payload) => {
+  socket.on('READY_FOR_NEW', (payload) => {
     //  get next message from queue
   });
 });
