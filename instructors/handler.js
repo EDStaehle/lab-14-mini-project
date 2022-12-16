@@ -22,8 +22,9 @@ const helping = (payload) => {
 };
 
 const completed = (payload) => {
-  console.log(`Completed ticket ${payload.ticketId}`);
+  console.log('BA-NA-NA');
   ticketQueue.helping = false;
 };
 
 module.exports = { startNewTicket, helping };
+
