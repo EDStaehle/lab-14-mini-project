@@ -15,8 +15,12 @@ const generateTicket = (socket) => (payload = null) => {
   socket.emit('NEW_TICKET', payload);
 };
 
+const receivingHelp = (payload) => {
+  console.log('Receiving help with ticket:', payload.ticketId);
+};
+
 const thankInstructor = (payload) => {
   console.log('Student from CODE-102: Thank you for helping:', payload.studentName);
 };
 
-module.exports = { generateTicket, thankInstructor };
+module.exports = { generateTicket, receivingHelp, thankInstructor };

@@ -25,6 +25,11 @@ help.on('connection', (socket) => {
   socket.on('NEW_TICKET', (payload) => {
     ticketQueue.enqueue(payload);
     console.log('Student has added a new ticket.');
+    if(!busy) {
+      // socket.emit('GET_TICKET', payload);
+    }
+
+
     // if instructor isn't busy
     // dequeue the ticket? or just take the payload immediately?
     // emit helping
@@ -34,20 +39,16 @@ help.on('connection', (socket) => {
     if (!ticketQueue.isEmpty()) {
       let nextTicket = ticketQueue.dequeue();
       busy = true;
-      console.log('busy inside GET_TICKET', busy);
       socket.emit('HELPING', nextTicket);
     } else {
       console.log('Ticket queue is empty.');
     }
   });
 
-  socket.on('HELPING', (payload) => {
-    console.log(`${payload.studentName} is being helped with ${payload.ticketId}.`);
-  });
-
   socket.on('COMPLETED', (payload) => {
     busy = false;
     console.log(`Ticket ${payload.ticketId} for ${payload.studentName} is now complete.`);
+    socket.emit('COMPLETED', payload);
   });
 
 });

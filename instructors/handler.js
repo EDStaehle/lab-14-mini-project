@@ -1,14 +1,11 @@
 'use strict';
 
-const ticketQueue = require('../server/index');
-
 const acknowledgeTicket = (payload) => {
   console.log('Instructor has seen ticket:', payload.ticketId);
 };
 
-const helpingTicket = (socket) => (payload) => {
+const helpingTicket = (payload) => {
   console.log('Instructor helping with ticket:', payload.ticketId);
-  // socket.emit('HELPING', (payload));
 };
 
 const completedTicket = (payload) => {
