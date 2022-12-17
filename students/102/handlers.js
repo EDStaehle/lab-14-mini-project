@@ -8,8 +8,6 @@ const generateTicket = (socket) => (payload = null) => {
     studentName : chance.name(),
     ticketId : chance.guid(),
     class: 'CODE-102',
-    queueId: 'helpTicket',
-    helper: undefined,
     description: chance.sentence({words:5}),
   };
 

@@ -2,34 +2,18 @@
 
 const ticketQueue = require('../server/index');
 
-const startNewTicket = (socket) => (payload) => {
-  console.log('Instructor: seen the ticket:', payload.ticketId);
-  socket.emit('INBOUND', payload);
-  setTimeout(() => {
-    console.log('Instructor: now helping with ticket:', payload.ticketId);
-    console.log('ticketQueue>>>', ticketQueue.helping);
-   console.log('starNewTicket', payload)
-    socket.emit('HELPING', {...payload, helping: true});
-  }, 2000);
-  setTimeout(() => {
-    socket.emit('COMPLETED', {...payload, helping: false});
-  }, 15000);
-  setTimeout(() => {
-    socket.emit('AVAILABILITY', 'elias')
-  }, 3000);
+const acknowledgeTicket = (payload) => {
+  console.log('Instructor has seen ticket:', payload.ticketId);
 };
 
-
-
-const helping = (payload) => {
-  console.log(`currently helping ${payload.ticketId}`);
-  ticketQueue.helping = true;
+const helpingTicket = (socket) => (payload) => {
+  console.log('Instructor helping with ticket:', payload.ticketId);
+  // socket.emit('HELPING', (payload));
 };
 
-const completed = (payload) => {
-  console.log('inscrutctor has completed: ', payload.ticketId);
-  ticketQueue.helping = false;
+const completedTicket = (payload) => {
+  console.log('Instructor has completed ticket: ', payload.ticketId);
 };
 
-module.exports = { startNewTicket, helping };
+module.exports = { acknowledgeTicket, helpingTicket, completedTicket };
 
