@@ -1,25 +1,46 @@
-# lab-14-mini-project
+# LAB - Class 14
 
-## Events
+## Help Ticket Queue
 
-- NEW_TICKET
+### Author: Elias Staehle and Kenny Lino
 
-  - EMIT: Student asks for help
-  - ON: If TA is available, emit HELPING, if not, store ticket in the ticketQueue
+### Problem Domain
 
-- HELPING
-Only emit HELPING when TA is ready; otherwise continue to store NEW_TICKET in queue
+using socket and queue functionality we are creating a help ticket queue for 4 different classes to submit help tickets for instructors to help the individual students.
 
-  - EMIT: TA asks for the ticket info
-  - ON: Sends ticket information
+### Links and Resources
 
-- COMPLETED
+- [ci/cd](https://github.com/EDStaehle/auth-api/actions) (GitHub Actions)
 
-  - EMIT: TA emits READY
-  - ON: Student thanks TA
+### Setup
 
+#### `.env` requirements (where applicable)
 
-## Simulation
+see `.env.sample`
 
-Students: NEW_TICKET every 3 seconds
-TAs: HELPING/COMPLETED every 10 seconds
+- `PORT` - Port Number
+
+#### How to initialize/run your application (where applicable)
+
+- `node file name`
+
+#### Features / Routes
+
+- /help = namespaces to connect to.
+allows students to input help tickets
+enqueues all tickets while instructors are busy helping a student.
+teachers will pull a new ticket after they complete the last one.
+teachers pull tickets until queue is empty.
+
+#### Tests
+
+- npm test
+- tests that a ticket can be created
+- tests that a teacher can get a new ticket
+- tests that a ticket will be enqueued
+- tests that when teacher is completete they will get the next ticket.
+- tests that the queue length reduces or increases based on enqueues or dequeues
+
+#### UML
+
+![UML](./lab-14-uml.png)
