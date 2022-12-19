@@ -32,6 +32,12 @@ enqueues all tickets while instructors are busy helping a student.
 teachers will pull a new ticket after they complete the last one.
 teachers pull tickets until queue is empty.
 
+#### User Stories
+
+- As a student i would like to be able to submit a help ticket from my class number
+- As an instructor I would like to be able to get a new ticket from the ticket queue
+- As an instructor I would like to have all tickets stored in a queue while I am busy helping another student
+
 #### Tests
 
 - npm test
