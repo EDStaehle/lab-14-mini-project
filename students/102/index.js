@@ -7,10 +7,11 @@ const socket = io('http://localhost:3001/help');
 
 socket.emit('JOIN', 'CODE-102');
 
-socket.on('HELPING',(payload) => receivingHelp(payload));
+socket.on('HELPING_STUDENT', (payload) => receivingHelp(payload));
 
-socket.on('COMPLETED', (payload) => thankInstructor(payload));
+socket.on('STUDENT_COMPLETED', (payload) => thankInstructor(payload));
+
 
 setInterval(() => {
   generateTicket(socket)();
-}, 2000);
+}, 5000);
