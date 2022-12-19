@@ -8,17 +8,20 @@ const generateTicket = (socket) => (payload = null) => {
     studentName : chance.name(),
     ticketId : chance.guid(),
     class: 'CODE-102',
-    queueId: 'helpTicket',
-    helper: undefined,
     description: chance.sentence({words:5}),
+    instructor: null,
   };
 
-  console.log('Student from CODE-102: Created help ticket');
+  console.log(`${payload.studentName} from CODE-102: Created help ticket`);
   socket.emit('NEW_TICKET', payload);
 };
 
-const thankInstructor = (payload) => {
-  console.log('Student from CODE-102: Thank you for helping:', payload.studentName);
+const receivingHelp = (payload) => {
+  console.log(payload.studentName, 'is receiving help with ticket:', payload.ticketId);
 };
 
-module.exports = { generateTicket, thankInstructor };
+const thankInstructor = (payload) => {
+  console.log(`${payload.instructor} thank you for helping ${payload.studentName}`);
+};
+
+module.exports = { generateTicket, receivingHelp, thankInstructor };

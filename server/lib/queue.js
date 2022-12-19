@@ -8,13 +8,11 @@ class Node {
   }
 }
 
-
-
-
 class Queue {
   constructor() {
     this.front = null;
     this.back = null;
+    this.length = 0;
   }
 
   enqueue(value) {
@@ -26,15 +24,15 @@ class Queue {
       this.back.next = newNode;
       this.back = this.back.next;
     }
-    console.log('a new ticket was added to the queue')
+    this.length += 1;
   }
 
   dequeue() {
     if (!this.isEmpty()) {
-      console.log('a ticket was removed from the student queue')
       let oldFront = this.front;
       this.front = oldFront.next;
       oldFront.next = null;
+      this.length -= 1;
       return (oldFront.value);
     } else {
       throw new Error('Queue is empty.');
@@ -53,4 +51,5 @@ class Queue {
     return this.front === null;
   }
 }
+
 module.exports = Queue;

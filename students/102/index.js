@@ -1,20 +1,17 @@
 'use strict';
 
-const { generateTicket, thankInstructor } = require('./handlers');
+const { generateTicket, receivingHelp, thankInstructor } = require('./handlers');
 
 const { io } = require('socket.io-client');
 const socket = io('http://localhost:3001/help');
 
 socket.emit('JOIN', 'CODE-102');
 
-socket.on('COMPLETED',(payload) => thankInstructor(payload));
+socket.on('HELPING_STUDENT', (payload) => receivingHelp(payload));
 
-// setInterval(() => {
-//   console.log('-----New Ticket-----');
-//   generateTicket(socket)();
-// }, 5000);
+socket.on('STUDENT_COMPLETED', (payload) => thankInstructor(payload));
 
-generateTicket(socket)();
+
 setInterval(() => {
   generateTicket(socket)();
-}, 2000);
+}, 5000);
